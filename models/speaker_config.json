@@ -1,0 +1,25 @@
+{
+    "sample_rate": 16000,
+    "duration": 5,
+    "n_mels": 128,
+    "n_fft": 1024,
+    "hop_length": 512,
+    "fmin": 20,
+    "fmax": 8000,
+    "mel_mean": -56.907955169677734,
+    "mel_std": 17.646888732910156,
+    "speakers": [
+        "Ipsita",
+        "Rohit",
+        "abhay",
+        "bimal",
+        "chandana",
+        "kajal",
+        "pradeepti",
+        "sanket",
+        "sarajoni",
+        "satya",
+        "soumya",
+        "sujal"
+    ]
+}

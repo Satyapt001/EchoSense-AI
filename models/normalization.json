@@ -1,0 +1,27 @@
+{
+    "model_version": "animal_classifier_v2",
+    "classes": [
+        "cat",
+        "chirping_birds",
+        "cow",
+        "crickets",
+        "crow",
+        "dog",
+        "frog",
+        "hen",
+        "insects",
+        "pig",
+        "rooster",
+        "sheep"
+    ],
+    "sample_rate": 16000,
+    "duration": 5,
+    "num_samples": 80000,
+    "n_mels": 128,
+    "n_fft": 1024,
+    "hop_length": 512,
+    "fmin": 20,
+    "fmax": 8000,
+    "train_mean": -49.883419036865234,
+    "train_std": 19.428417205810547
+}

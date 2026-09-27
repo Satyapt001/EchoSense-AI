@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EchoSense AI — Dual-engine acoustic intelligence and bioacoustic recognition">
+    <title>EchoSense AI — Audio Intelligence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="background">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="orb orb-three"></div>
+    </div>
+
+    <main class="app-shell">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="waves"></i>
+                </div>
+                <div>
+                    <h1>EchoSense AI</h1>
+                    <span>Audio Intelligence</span>
+                </div>
+            </div>
+
+            <div class="status glass-pill">
+                <span class="status-dot"></span>
+                <span>System Online</span>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="eyebrow">
+                <i data-lucide="sparkles"></i>
+                <span>NEXT-GEN ACOUSTIC ENGINE</span>
+            </div>
+
+            <h2>Understand every <span>sound.</span></h2>
+            <p>Powered by EchoSense AI. Seamlessly analyze environmental bioacoustics and speaker audio profiles through real-time spectral inference.</p>
+
+            <div class="hero-actions">
+                <a href="#workspace" class="cta-primary-btn">
+                    <span>Start Analyzing Now</span>
+                    <i data-lucide="arrow-down-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <section class="mode-switch-wrapper">
+            <div class="mode-switch glass">
+                <button
+                    type="button"
+                    class="mode-btn active"
+                    data-mode="animal"
+                    onclick="selectMode('animal')"
+                >
+                    <span class="mode-icon">
+                        <i data-lucide="paw-print"></i>
+                    </span>
+                    <span class="mode-text">
+                        <strong>Animal Sound</strong>
+                        <small>Identify biological acoustics</small>
+                    </span>
+                </button>
+
+                <button
+                    type="button"
+                    class="mode-btn"
+                    data-mode="speaker"
+                    onclick="selectMode('speaker')"
+                >
+                    <span class="mode-icon">
+                        <i data-lucide="mic-2"></i>
+                    </span>
+                    <span class="mode-text">
+                        <strong>Human Speaker</strong>
+                        <small>Recognize vocal profiles</small>
+                    </span>
+                </button>
+            </div>
+        </section>
+
+        <section class="workspace-grid" id="workspace">
+
+            <div class="main-card glass input-card">
+                <div class="card-header">
+                    <div class="step-badge">1</div>
+                    <div>
+                        <h3>Audio Input</h3>
+                        <p>Provide a file or record through your mic</p>
+                    </div>
+                </div>
+
+                <div class="drop-zone" id="dropZone">
+                    <div class="upload-icon">
+                        <i data-lucide="audio-lines"></i>
+                    </div>
+
+                    <h4>Drop your recording here</h4>
+                    <p>WAV, MP3, OGG, or FLAC up to 25MB</p>
+
+                    <div class="action-buttons">
+                        <label for="audioFile" class="action-btn browse-btn">
+                            <i data-lucide="folder-open"></i>
+                            <span>Browse File</span>
+                        </label>
+
+                        <button
+                            type="button"
+                            id="micRecordBtn"
+                            class="action-btn mic-record-btn"
+                            onclick="toggleMicRecord()"
+                        >
+                            <i data-lucide="mic"></i>
+                            <span id="micBtnText">Record Mic</span>
+                        </button>
+                    </div>
+
+                    <input
+                        type="file"
+                        id="audioFile"
+                        accept="audio/*"
+                    >
+
+                    <div id="recStatus" class="rec-status hidden">
+                        <div class="rec-dot-wrap">
+                            <span class="rec-pulse-ring"></span>
+                            <span class="rec-dot"></span>
+                        </div>
+                        <div class="rec-info">
+                            <span>Capturing...</span>
+                            <strong id="recTimer">00:00</strong>
+                        </div>
+                        <button
+                            type="button"
+                            class="stop-rec-btn"
+                            onclick="stopRecording()"
+                        >
+                            <i data-lucide="square"></i>
+                            <span>Stop</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="fileCard" class="file-card hidden">
+                    <div class="file-icon">
+                        <i data-lucide="music-2"></i>
+                    </div>
+                    <div class="file-info">
+                        <strong id="fileName">audio.wav</strong>
+                        <span id="fileSize">0 MB</span>
+                    </div>
+                    <button
+                        type="button"
+                        class="remove-btn"
+                        onclick="removeFile()"
+                        aria-label="Remove audio"
+                    >
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </div>
+
+                <div class="audio-preview-container">
+                    <audio
+                        id="audioPreview"
+                        class="audio-preview"
+                        controls
+                    ></audio>
+                </div>
+
+                <button
+                    type="button"
+                    id="predictBtn"
+                    class="analyze-btn"
+                    onclick="predictAudio()"
+                >
+                    <span>
+                        <i data-lucide="sparkles"></i>
+                        Analyze Recording
+                    </span>
+                    <i data-lucide="arrow-right"></i>
+                </button>
+
+                <div id="error" class="error hidden">
+                    <i data-lucide="alert-triangle"></i>
+                    <span id="errorMessage"></span>
+                </div>
+            </div>
+
+            <div class="main-card glass results-card">
+                <div class="card-header">
+                    <div class="step-badge">2</div>
+                    <div>
+                        <h3>Inference & Metrics</h3>
+                        <p>Classification details and probability metrics</p>
+                    </div>
+                </div>
+
+                <div id="resultPlaceholder" class="result-placeholder">
+                    <div class="placeholder-icon">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <h4>Awaiting Audio</h4>
+                    <p>Upload or record a sample on the left panel to execute real-time neural inference.</p>
+                </div>
+
+                <div id="loading" class="loading hidden">
+                    <div class="loader-orbit">
+                        <div class="loader-spinner"></div>
+                    </div>
+                    <strong>Processing Acoustics</strong>
+                    <span>EchoSense AI is evaluating frequency bands and features...</span>
+                </div>
+
+                <div id="result" class="result hidden">
+                    <div class="result-header">
+                        <div>
+                            <span class="result-label">Identified Classification</span>
+                            <h3 id="prediction">—</h3>
+                        </div>
+                        <div class="result-icon">
+                            <i data-lucide="badge-check"></i>
+                        </div>
+                    </div>
+
+                    <div class="confidence-section">
+                        <div class="confidence-header">
+                            <span>Top Match Confidence</span>
+                            <strong id="confidence">0%</strong>
+                        </div>
+                        <div class="progress">
+                            <div id="confidenceBar" class="progress-bar"></div>
+                        </div>
+                    </div>
+
+                    <div id="probabilitiesSection" class="probabilities-section hidden">
+                        <div class="prob-header">
+                            <i data-lucide="bar-chart-3"></i>
+                            <span>Probability Distribution</span>
+                        </div>
+                        <div id="probabilitiesList" class="probabilities-list"></div>
+                    </div>
+
+                    <div class="result-footer">
+                        <span>
+                            <i data-lucide="shield-check"></i>
+                            EchoSense verification complete
+                        </span>
+                        <button type="button" onclick="clearResult()">
+                            <span>Reset</span>
+                            <i data-lucide="rotate-cw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="app-footer">
+            <p>© EchoSense AI Acoustic Neural Engine. All rights reserved.</p>
+            <div class="footer-meta">
+                <span>Fast Edge Processing</span>
+                <span class="separator">•</span>
+                <span>Zero Audio Retention</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
